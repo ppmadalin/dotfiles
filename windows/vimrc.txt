@@ -1,0 +1,119 @@
+set nocompatible              " required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=C:\Users\pmadalin\vimfiles\bundle\Vundle.vim
+call vundle#rc()
+
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" PLUGINS
+" =======
+Plugin 'mileszs/ack.vim'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'klen/python-mode'
+Plugin 'jnurmine/Zenburn'
+Plugin 'ayu-theme/ayu-vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'scrooloose/nerdtree'
+Plugin 'kien/ctrlp.vim'
+Plugin 'godlygeek/tabular'
+Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" BASIC SETUP
+" ===========
+set wildmenu
+set wildmode=longest:full,full
+set nu				" line number
+syntax on			" syntax highlighting
+set splitbelow			" default split below
+set splitright			" default split to righ
+set encoding=utf-8		" default encoding
+set clipboard=unnamed		" common clipboard
+set backspace=indent,eol,start	" backspace fix
+set visualbell			" enable visualbell
+set t_vb=			" set visualbell to none
+set smartcase			" search smartcase
+set ignorecase			" case insensitive
+set foldmethod=indent		" fold method
+set foldlevel=99		" maxim lines to fold
+
+" row highlight setup
+set cursorline
+hi cursorline cterm=none term=none
+autocmd WinEnter * setlocal cursorline
+autocmd WinLeave * setlocal nocursorline
+highlight CursorLine guibg=#303000 ctermbg=234
+
+" change default working directory
+cd C:\oracle.com
+
+
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Enable folding with the spacebar
+nnoremap <space> za
+
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix |
+
+" open mazimezed
+au GUIEnter * simalt ~x
+
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+
+" PLUGINS SETUP
+" =============
+
+" Ctrl P setup
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+" NERDTree Setup
+au VimEnter *  NERDTree                   " open by default
+let NERDTreeIgnore=['\sublime.project$','\workspace$', '\.pyc$', '\~$'] 
+nmap <F6> :NERDTreeToggle<CR>
+let g:SimpylFold_docstring_preview=1
+let python_highlight_all=1
+
+" Python mode setup
+let g:pymode_python = 'python3'
+
+if has('gui_running')
+	set termguicolors     " enable true colors support
+	set guifont=Fira_Code:h13
+	"let ayucolor="light"  " for light version of theme
+	"let ayucolor="mirage" " for mirage version of theme
+	"let ayucolor="dark"   " for dark version of theme
+	colorscheme molokai
+else
+   	set background=dark 
+	colorscheme zenburn
+endif
+
