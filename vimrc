@@ -175,6 +175,15 @@ set softtabstop=4
 set shiftwidth=4
 set shiftround
 set expandtab
+" wilde menu setup
+set wildmenu
+set wildmode=longest:full,full
+" row highlight setup
+set cursorline
+hi cursorline cterm=none term=none
+autocmd WinEnter * setlocal cursorline
+autocmd WinLeave * setlocal nocursorline
+highlight CursorLine guibg=#303000 ctermbg=234
 
 
 
