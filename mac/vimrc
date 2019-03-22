@@ -167,8 +167,9 @@ set number 			" show line numbers
 set tw=79			" width of the document
 set nowrap 			" don't automatically wrap on load
 set fo-=t			" don't automaticlly wrap text
-set colorcolumn=80
-highlight ColorColumn ctermbg=233
+" column highlight setup
+set colorcolumn=80  " enable color column
+highlight ColorColumn ctermbg=233 " color column
 " Use spaces instead of TABs
 set tabstop=4
 set softtabstop=4
