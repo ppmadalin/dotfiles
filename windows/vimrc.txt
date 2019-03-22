@@ -106,6 +106,13 @@ let python_highlight_all=1
 let g:pymode_python = 'python3'
 
 if has('gui_running')
+	set guioptions-=g
+	set guioptions-=m
+	set guioptions-=r
+	set guioptions-=L
+	set guioptions-=t
+	set guioptions-=T
+	set guioptions+=c
 	set termguicolors     " enable true colors support
 	set guifont=Fira_Code:h13
 	"let ayucolor="light"  " for light version of theme
