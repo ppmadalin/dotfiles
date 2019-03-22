@@ -18,6 +18,8 @@ Plugin 'jnurmine/Zenburn'
 Plugin 'ayu-theme/ayu-vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
+Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'vim-pandoc/vim-pandoc-syntax' 
 Plugin 'kien/ctrlp.vim'
 Plugin 'godlygeek/tabular'
 Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
@@ -62,8 +64,10 @@ set shiftwidth=4
 set shiftround
 set expandtab
 
-" change default working directory
-cd C:\oracle.com
+" powerline setup
+set rtp+=/usr/local/lib/python3.7/site-packages/powerline/bindings/vim
+set laststatus=2
+set t_Co=256
 
 "split navigations
 nnoremap <C-J> <C-W><C-J>
@@ -111,6 +115,14 @@ let NERDTreeIgnore=['\sublime.project$','\workspace$', '\.pyc$', '\~$']
 nmap <F6> :NERDTreeToggle<CR>
 let g:SimpylFold_docstring_preview=1
 let python_highlight_all=1
+
+" Vim Pandoc setup
+let g:pandoc#syntax#codeblocks#embeds#langs = ["sql","python"]  
+let g:pandoc#syntax#style#underline_special = 0
+let g:pandoc#syntax#style#use_definition_lists = 0 
+let g:pandoc#syntax#style#emphases = 0
+let g:pandoc#syntax#conceal#use = 0
+let g:pandoc#spell#enabled = 0
 
 " Python mode setup
 let g:pymode_python = 'python3'
