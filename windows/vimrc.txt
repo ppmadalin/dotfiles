@@ -44,6 +44,10 @@ set ignorecase			" case insensitive
 set foldmethod=indent		" fold method
 set foldlevel=99		" maxim lines to fold
 
+" column highlight setup
+set colorcolumn=80  " enable color column
+highlight ColorColumn ctermbg=233 " color column
+
 " row highlight setup
 set cursorline
 hi cursorline cterm=none term=none
@@ -51,9 +55,15 @@ autocmd WinEnter * setlocal cursorline
 autocmd WinLeave * setlocal nocursorline
 highlight CursorLine guibg=#303000 ctermbg=234
 
+" Use spaces instead of TABs
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
+
 " change default working directory
 cd C:\oracle.com
-
 
 "split navigations
 nnoremap <C-J> <C-W><C-J>
