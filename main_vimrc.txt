@@ -1,0 +1,254 @@
+" .vimrc config file
+" 
+" Author: Madalin Popa
+" Email: contact@madalinpopa.com
+
+" =====================================================================
+" PLUGIN MANAGER SETUP
+" =====================================================================
+
+set nocompatible              " required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=C:\Users\popam\vimfiles\bundle\Vundle.vim
+call vundle#rc()
+
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" PLUGINS
+" =======
+Plugin 'mileszs/ack.vim'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'klen/python-mode'
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'kien/ctrlp.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'Yggdroot/indentLine'
+Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" =====================================================================
+" BASIC SETUP
+" =====================================================================
+" syntax highlighting
+syntax on			                    
+
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowb
+set noswapfile
+
+" enable wildmenu pop up
+set wildmenu                           
+set wildmode=longest:full,full 
+
+" line number
+set nu				               
+
+" default windwow spliting
+set splitbelow			               
+set splitright			                
+
+" default encoding
+set encoding=utf-8		                
+
+" common clipboard
+set clipboard=unnamed		            
+
+" backspace fix
+set backspace=indent,eol,start	        
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
+" search setttings
+set smartcase			                
+set hlsearch
+set ignorecase			                
+set incsearch
+
+" fold method
+set foldmethod=indent	            	
+set foldlevel=99	                	
+
+" Linebreak on 500 characters
+set lbr
+set tw=500
+
+set ai "Auto indent
+set si "Smart indent
+set wrap "Wrap lines
+
+" row highlight setup
+set cursorline
+hi cursorline cterm=none term=none
+autocmd WinEnter * setlocal cursorline
+autocmd WinLeave * setlocal nocursorline
+highlight CursorLine guibg=#303000 ctermbg=234
+
+" column highlight setup
+set colorcolumn=80  " enable color column
+highlight ColorColumn ctermbg=233 " color column
+
+" Use spaces instead of TABs
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
+
+"Always show current position
+set ruler
+
+" Height of the command bar
+set cmdheight=2
+
+" =====================================================================
+" NAVIGATION SETUP
+" =====================================================================
+
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" =====================================================================
+" FILE TYPE SETUP 
+" =====================================================================
+
+"------------Start Python PEP 8 stuff----------------
+" Number of spaces that a pre-existing tab is equal to.
+au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
+
+"spaces for indents
+au BufRead,BufNewFile *.py,*pyw set shiftwidth=4
+au BufRead,BufNewFile *.py,*.pyw set expandtab
+au BufRead,BufNewFile *.py set softtabstop=4
+
+" Use the below highlight group when displaying bad whitespace is desired.
+highlight BadWhitespace ctermbg=red guibg=red
+
+" Display tabs at the beginning of a line in Python mode as bad.
+au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
+" Make trailing whitespace be flagged as bad.
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" Wrap text after a certain number of characters
+au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
+
+" Use UNIX (\n) line endings.
+au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
+
+" For full syntax highlighting:
+let python_highlight_all=1
+
+"------------HTML, Javascript, CSS-------------------
+au BufNewFile,BufRead *.js, *.html, *.css set tabstop=2
+au BufNewFile,BufRead *.js, *.html, *.css set softtabstop=2
+au BufNewFile,BufRead *.js, *.html, *.css set shiftwidth=2		
+			
+
+" =====================================================================
+" PLUGIN SETUP 
+" =====================================================================
+
+" => CTRL-P
+" =================
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+let g:ctrlp_max_height = 20
+let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+" => NERDTree Setup
+" =================
+let NERDTreeIgnore=['\sublime.project$','\workspace$', '\.pyc$', '\~$'] 
+let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+
+" au VimEnter *  NERDTree 
+let g:NERDTreeWinPos = "left"
+let NERDTreeShowHidden=0
+let g:NERDTreeWinSize=35
+
+map <leader>nn :NERDTreeToggle<cr>
+map <leader>nb :NERDTreeFromBookmark<Space>
+map <leader>nf :NERDTreeFind<cr>
+
+
+" => Syntastic setup
+" =================
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_python_checkers = ['python3']
+
+
+" => powerline
+" =================
+set statusline+=%#warningmsg#
+"set rtp+=/usr/local/lib/python3.7/site-packages/powerline/bindings/vim
+set rtp+="C:\\Program Files (x86)\\Python36\Lib\\site-packages\\powerline\\bindings\\vim"
+set laststatus=2
+set t_Co=256
+
+
+" Enable folding with the spacebar
+nnoremap <space> za
+
+" Python mode setup
+let g:pymode_python = 'python3'
+
+" =====================================================================
+" GUI SETUP
+" =====================================================================
+if has('gui_running')
+	set guioptions-=g
+	set guioptions-=m
+	set guioptions-=r
+	set guioptions-=L
+	set guioptions-=t
+	set guioptions-=T
+	set guioptions+=c
+	set termguicolors     
+    set guifont=Fira_Code:h13
+	colorscheme molokai
+	" open mazimezed
+	au GUIEnter * simalt ~x
+else
+   	set background=light 
+	set termguicolors     
+	colorscheme molokai
+endif
+
