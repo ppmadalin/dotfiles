@@ -1,4 +1,3 @@
-
 " .vimrc config file
 " 
 " Author: Madalin Popa
@@ -31,6 +30,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'Yggdroot/indentLine'
+Plugin 'fisadev/vim-isort'
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax' 
 Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
@@ -235,11 +235,14 @@ set laststatus=2
 set t_Co=256
 
 
-" Enable folding with the spacebar
+" => Enable folding with the spacebar
 nnoremap <space> za
 
-" Python mode setup
+" => Python mode setup
 let g:pymode_python = 'python3'
+
+" => Isort setup
+let g:vim_isort_python_version = 'python3'
 
 " =====================================================================
 " GUI SETUP
