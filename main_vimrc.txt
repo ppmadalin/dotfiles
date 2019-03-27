@@ -101,6 +101,9 @@ autocmd WinEnter * setlocal cursorline
 autocmd WinLeave * setlocal nocursorline
 highlight CursorLine guibg=#303000 ctermbg=234
 
+" hide buffers by default
+set hidden
+
 " column highlight setup
 set colorcolumn=80  " enable color column
 highlight ColorColumn ctermbg=233 " color column
