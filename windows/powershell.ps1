@@ -52,3 +52,6 @@ Set-PSReadlineOption -TokenKind command -ForegroundColor white
 # Set-PSReadlineOption -TokenKind string -ForegroundColor white
 # Set-PSReadlineOption -TokenKind operator -ForegroundColor white
 # Set-PSReadlineOption -TokenKind member -ForegroundColor white
+
+# disable bell on backspace
+Set-PSReadlineOption -BellStyle None
