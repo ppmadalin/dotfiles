@@ -1,47 +1,42 @@
-" .vimrc config file
-" 
 " Author: Madalin Popa
 " Email: contact@madalinpopa.com
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" VUNDLE SETUP
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+let mapleader = ","
 set nocompatible              " required
 filetype off                  " required
 
+" =====================================================================
+" PLUGIN MANAGER SETUP
+" =====================================================================
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call vundle#rc()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" INSTALLED PLUGINS
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" PLUGIN SETUP
-Plugin 'mileszs/ack.vim'
-Plugin 'tmhedberg/SimpylFold'
+" PLUGINS
+" =======
+Plugin 'klen/python-mode'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'vim-syntastic/syntastic'
-Plugin 'scrooloose/nerdtree'
 Plugin 'davidhalter/jedi-vim'
-Plugin 'klen/python-mode'
+Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'ayu-theme/ayu-vim'
-Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'Yggdroot/indentLine'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'fisadev/vim-isort'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" PLUGIN SETUP
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+" =====================================================================
+" FILE TYPE SETUP 
+" =====================================================================
 
 "------------Start Python PEP 8 stuff----------------
 " Number of spaces that a pre-existing tab is equal to.
@@ -66,153 +61,207 @@ au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
 " Use UNIX (\n) line endings.
 au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
 
-" Set the default file encoding to UTF-8:
-set encoding=utf-8
-
 " For full syntax highlighting:
 let python_highlight_all=1
-syntax on
 
-" Keep indentation level from previous line:
-autocmd FileType python set autoindent
+"------------HTML, Javascript, CSS-------------------
+au BufNewFile,BufRead *.js, *.html, *.css set tabstop=2
+au BufNewFile,BufRead *.js, *.html, *.css set softtabstop=2
+au BufNewFile,BufRead *.js, *.html, *.css set shiftwidth=2
 
-" make backspaces more powerfull
-set backspace=indent,eol,start
+" =====================================================================
+" NAVIGATION SETUP
+" =====================================================================
 
+" noremap h <NOP>
+" noremap j <NOP>
+" noremap k <NOP>
+" noremap l <NOP>
 
-"Folding based on indentation:
-autocmd FileType python set foldmethod=indent
-"use space to open folds
-nnoremap <space> za
-"----------Stop python PEP 8 stuff--------------
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => CTRL-P
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ctrlp_working_path_mode = 0
-
-let g:ctrlp_map = '<c-f>'
-map <leader>j :CtrlP<cr>
-map <c-b> :CtrlPBuffer<cr>
-
-let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Nerd Tree
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au VimEnter *  NERDTree 
-let g:NERDTreeWinPos = "left"
-let NERDTreeShowHidden=0
-let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-let g:NERDTreeWinSize=35
-map <leader>nn :NERDTreeToggle<cr>
-map <leader>nb :NERDTreeFromBookmark<Space>
-map <leader>nf :NERDTreeFind<cr>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Syntastic setup
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_python_checkers = ['python3']
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Navigation setup
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "split navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" Enable folding with the spacebar
-nnoremap <space> za
+" =====================================================================
+" PLUGIN SETUP 
+" =====================================================================
 
+" =================
+" => CTRL-P
+" =================
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Basic Setup
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Split setup windows
-set splitbelow			" default split below
-set splitright			" default split to righ
-set visualbell			" enable visualbell
-set t_vb=			" set visualbell to none
-" Search setup
-set smartcase			" search smartcase
-set incsearch			" increase search
-set ignorecase			" case insensitive
-" Fold setup
-set foldmethod=indent		" fold method
-set foldlevel=99		" maxim lines to fold
-" Dsable backup and swap files
-set nobackup			" no backup files
-set nowritebackup		" no write backup
-set noswapfile			" no create swap fle
-" Easier moving of code block
-vnoremap < <gv 			" better identation
-vnoremap > >gv			" better identation
-" Show line numbers and lenght
-set number 			" show line numbers
-set tw=79			" width of the document
-set nowrap 			" don't automatically wrap on load
-set fo-=t			" don't automaticlly wrap text
+let g:ctrlp_max_height = 20
+let g:ctrlp_map = '<F6>'
+let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+" =================
+" => NERDTree
+" =================
+let NERDTreeIgnore=['\sublime.project$','\workspace$', '\.pyc$', '\~$'] 
+let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+
+" au VimEnter *  NERDTree 
+let g:NERDTreeWinPos = "left"
+let NERDTreeShowHidden=0
+let g:NERDTreeWinSize=35
+" let g:NERDTreeDirArrowExpandable = '?'
+" let g:NERDTreeDirArrowCollapsible = '?'
+
+map <leader>nn :NERDTreeToggle<cr>
+map <leader>nb :NERDTreeFromBookmark<Space>
+map <leader>nf :NERDTreeFind<cr>
+
+" =================
+" => Syntastic
+" =================
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_python_checkers = ['python3']
+
+" =================
+" => Python-mode
+" =================
+let g:pymode_python = 'python3'
+let g:pymode_run = 1
+let g:pymode_run_bind = '<leader>r'
+let g:pymode_rope_completion = 1
+let g:pymode_rope_completion_bind = '<C-Space>'
+
+" =================
+" => Jedi
+" =================
+let g:jedi#goto_command = "<leader>d"
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = ""
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>T"
+
+" =================
+" => AG
+" =================
+let g:ackprg = 'ag --vimgrep'
+
+" =================
+" => Isort
+" =================
+let g:vim_isort_python_version = 'python3'
+
+" =================
+" => Airline
+" =================
+let g:airline_powerline_fonts = 1
+
+" let g:airline_left_sep = ''
+" let g:airline_left_alt_sep = ''
+" let g:airline_right_sep = ''
+" let g:airline_right_alt_sep = ''
+" let g:airline_symbols.branch = ''
+" let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = ''
+
+" =====================================================================
+" BASIC SETUP
+" =====================================================================
+
+set renderoptions=type:directx  " font fira code render setup
+syntax on			            " syntax highlighting
+set nobackup                    " set no backup
+set nowb                        " set no write buffer
+set noswapfile                  " set no swapfile
+set wildmenu                    " enable wildmenu pop up
+set wildmode=longest:full,full  " wildmode setup
+set nu                          " line number
+set splitbelow                  " default orizontal split below
+set splitright                  " default vertical split right			                
+set encoding=utf-8	            " default encoding
+set clipboard=unnamed	        " common clipboard
+set backspace=indent,eol,start	" backspace fix
+set noerrorbells                " no error bells
+set novisualbell                " no visual bells
+set t_vb=                       " disable visual bell
+set tm=500                      " no visual errors
+set smartcase			                
+set ignorecase			                
+set incsearch
+set foldmethod=indent	            	
+set foldlevel=99	                	
+set ai                          "Auto indent
+set si                          "Smart indent
+set wrap                        "Wrap lines
+
+" row highlight setup
+set cursorline
+hi cursorline cterm=none term=none
+autocmd WinEnter * setlocal cursorline
+autocmd WinLeave * setlocal nocursorline
+highlight CursorLine guibg=#303000 ctermbg=235
+set hidden " hide buffers by default
+
 " column highlight setup
-set colorcolumn=80  " enable color column
-highlight ColorColumn ctermbg=233 " color column
+" set colorcolumn=80  " enable color column
+" highlight ColorColumn guibg=#303000 ctermbg=235
+
 " Use spaces instead of TABs
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set shiftround
 set expandtab
-" wilde menu setup
-set wildmenu
-set wildmode=longest:full,full
-" row highlight setup
-set cursorline
-hi cursorline cterm=none term=none
-autocmd WinEnter * setlocal cursorline
-autocmd WinLeave * setlocal nocursorline
-highlight CursorLine guibg=#303000 ctermbg=234
 
-
-
-
-" Plug 'ayu-theme/ayu-vim' " or other package manager
-"...
-set termguicolors     " enable true colors support
-let ayucolor="light"  " for light version of theme
-" let ayucolor="mirage" " for mirage version of theme
-" let ayucolor="dark"   " for dark version of theme
-colo ayu
-
-" powerline
-set rtp+=/usr/local/lib/python3.7/site-packages/powerline/bindings/vim
-set laststatus=2
-set t_Co=256
-
-if has('gui_running')
-  set guifont=Menlo:h15
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
+"Always show current position
+set ruler
 
+" Height of the command bar
+set cmdheight=2
 
-
-
-
-
-
-
-
-
+" =====================================================================
+" GUI SETUP
+" =====================================================================
+if has('gui_running')
+	set guioptions-=g
+	set guioptions-=m
+	set guioptions-=r
+	set guioptions-=L
+	set guioptions-=t
+	set guioptions-=T
+	set guioptions+=c
+	set termguicolors     
+    set guifont=Fira_Code:h15
+    set background=light
+    colorscheme monokai
+else
+    set background=light
+    set termguicolors
+    colorscheme monokai
+endif
