@@ -4,7 +4,7 @@
 "+++++++++++++++++++++++++++++++++++
 
 let mapleader = ","
-filetype off                 
+filetype off
 
 " Setup the vim-plug
 call plug#begin('~/.local/share/nvim/plugged')
@@ -14,8 +14,10 @@ Plug 'zchee/deoplete-jedi'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'davidhalter/jedi-vim'
 Plug 'jiangmiao/auto-pairs'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 Plug 'Yggdroot/indentLine'
-Plug 'vim-syntastic/syntastic'
+Plug 'neomake/neomake'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'wsdjeg/FlyGrep.vim'
@@ -29,26 +31,29 @@ call plug#end()
 " Plugins Setup                    +
 "+++++++++++++++++++++++++++++++++++
 
+" Utilsnips settings
 
-" Syntastic settings
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_python_checkers = ['python3']
+" Neomake settings
+"
+autocmd! BufWritePost,BufEnter * Neomake
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_python_enabled_makers = ['pylint', 'python']
 
 
 " NERDTree settings
 "
-let NERDTreeIgnore=['\sublime.project$','\workspace$', '\.pyc$', '\~$'] 
+let NERDTreeIgnore=['\sublime.project$','\workspace$', '\.pyc$', '\~$']
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
-" au VimEnter *  NERDTree 
+" au VimEnter *  NERDTree
 let g:NERDTreeWinPos = "left"
 let NERDTreeShowHidden=0
 let g:NERDTreeWinSize=35
@@ -72,7 +77,7 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 
 " Airline settings
-" 
+"
 " To set a specific theme
 let g:airline_theme='ayu_dark' " <theme> is a valid theme name
 
@@ -169,35 +174,51 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " Terminal navigation
-tnoremap <A-h> <C-\><C-N><C-w>h
-tnoremap <A-j> <C-\><C-N><C-w>j
-tnoremap <A-k> <C-\><C-N><C-w>k
-tnoremap <A-l> <C-\><C-N><C-w>l
-inoremap <A-h> <C-\><C-N><C-w>h
-inoremap <A-j> <C-\><C-N><C-w>j
-inoremap <A-k> <C-\><C-N><C-w>k
-inoremap <A-l> <C-\><C-N><C-w>l
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
+tnoremap <C-h> <C-\><C-n><C-h>
+tnoremap <C-j> <C-\><C-n><C-j>
+tnoremap <C-k> <C-\><C-n><C-k>
+tnoremap <C-l> <C-\><C-n><C-l>
+
+" easily escape terminal
+tnoremap <leader><esc> <C-\><C-n><esc><cr>
+tnoremap <C-o> <C-\><C-n><esc><cr>
+
+" close terminal
+tnoremap <silent> <leader>o <C-\><C-n>:Ttoggle<cr>
+tnoremap <silent> <leader><space> <C-\><C-n>:Ttoggle<cr>
 
 "+++++++++++++++++++++++++++++++++++
 " Shortcuts Setup                    +
 "+++++++++++++++++++++++++++++++++++
 "
 "
+" Run mypy
 noremap <F4> :! mypy .<CR>
+" Run coverage
 noremap <F5> :! pytest --cov-report term-missing --cov='.'<CR>
 
+" Quick exit without save
+noremap <leader>q :q!<CR>
+
+" Quick save
+noremap <leader>w :w<CR>
+
+" Open a terminal quick
+noremap <leader>t :split term://zsh<CR>
+
+" Run python file
+noremap <leader>r :!python %<CR>
 
 
 "+++++++++++++++++++++++++++++++++++
 " Basic Setup                    +
 "+++++++++++++++++++++++++++++++++++
 "
-"
+
+" Set global python. This is for neovim to knows which python
+" you run when you are within a  virtual environment. 
 let g:python3_host_prog = '/usr/local/bin/python3.7'
+
 syntax on			            " syntax highlighting
 set nobackup                    " set no backup
 set relativenumber              " set relative numver
@@ -207,23 +228,34 @@ set wildmenu                    " enable wildmenu pop up
 set wildmode=longest:full,full  " wildmode setup
 set nu                          " line number
 set splitbelow                  " default orizontal split below
-set splitright                  " default vertical split right			                
-set encoding=utf-8	        " default encoding
+set splitright                  " default vertical split right
+set encoding=utf-8	            " default encoding
 set clipboard=unnamed	        " common clipboard
 set backspace=indent,eol,start	" backspace fix
 set noerrorbells                " no error bells
 set novisualbell                " no visual bells
 set t_vb=                       " disable visual bell
 set tm=500                      " no visual errors
-set smartcase			                
-set ignorecase			                
+set smartcase
+set ignorecase
 set incsearch
 set nohlsearch
-set foldmethod=indent	            	
-set foldlevel=99	                	
+set foldmethod=indent
+set foldlevel=99
 set ai                          "Auto indent
 set si                          "Smart indent
 set wrap                        "Wrap lines
+set background=light
+set termguicolors
+colorscheme goodwolf
+set hidden                      " hide buffers by default
+set ruler                       "Always show current position
+set cmdheight=2                 " Height of the command bar
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
 
 " row highlight setup
 set cursorline
@@ -231,18 +263,10 @@ hi cursorline cterm=none term=none
 autocmd WinEnter * setlocal cursorline
 autocmd WinLeave * setlocal nocursorline
 highlight CursorLine guibg=#303000 ctermbg=235
-set hidden " hide buffers by default
 
 " column highlight setup
 " set colorcolumn=80  " enable color column
 " highlight ColorColumn guibg=#303000 ctermbg=235
-
-" Use spaces instead of TABs
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set shiftround
-set expandtab
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
@@ -250,27 +274,4 @@ if has("win16") || has("win32")
     set wildignore+=.git\*,.hg\*,.svn\*
 else
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-endif
-
-"Always show current position
-set ruler
-" Height of the command bar
-set cmdheight=2
-
-if has('gui_running')
-	set guioptions-=g
-	set guioptions-=m
-	set guioptions-=r
-	set guioptions-=L
-	set guioptions-=t
-	set guioptions-=T
-	set guioptions+=c
-	set termguicolors     
-    set guifont=Fira_Code:h15
-    set background=light
-    colorscheme goodwolf
-else
-    set background=light
-    set termguicolors
-    colorscheme goodwolf
 endif
