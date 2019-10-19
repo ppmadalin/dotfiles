@@ -1,0 +1,34 @@
+{
+    // Interface settings
+    "breadcrumbs.enabled": false,
+    "explorer.autoReveal": false,
+    "debug.console.fontSize": 13,
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.iconTheme": "simple-icons",
+    "window.restoreWindows": "none",
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+    "extensions.ignoreRecommendations": true,
+
+    // Editor settings
+    "editor.minimap.enabled": false,
+    "editor.fontSize": 14,
+    "editor.renderWhitespace": "boundary",
+    "editor.defaultFormatter": "ms-python.python",
+    "editor.fontFamily":  "'FiraCode-Retina'",
+    "editor.fontLigatures": true,
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 80,
+    "[markdown]": {
+        "editor.wordWrap": "bounded",
+        "editor.quickSuggestions": false
+    },
+    "editor.rulers": [80, 120],
+    
+    // Terminal settings
+    "terminal.explorerKind": "external",
+    "terminal.integrated.fontSize": 13,
+
+    // Language settings
+    "python.linting.enabled": false,
+    "python.autoComplete.addBrackets": true,
+}
